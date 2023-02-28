@@ -40,7 +40,7 @@ const BookDetailPage = ({ item }) => {
     category: passedRecord?.category ?? "",
     bookIdNo: passedRecord?.bookIdNo ?? "",
     _id: passedRecord?._id ?? "",
-    imageURL:passedRecord?.img??"",
+    imageURL:passedRecord?.imageURL??"",
   }
 
 

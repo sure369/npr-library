@@ -1,21 +1,29 @@
 import React,{useEffect, useState} from 'react'
 import { SampleBooksData } from '../Data\'s/booksData';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { DataGrid } from '@mui/x-data-grid';
 import '../styles/newForm.css'
 import { useNavigate } from 'react-router-dom';
-
 import {
   Card, CardContent, Box, Button, Typography, Modal
   , IconButton, Grid, Accordion, AccordionSummary, AccordionDetails, Pagination, Menu, MenuItem
 } from "@mui/material";
 import axios from 'axios'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const BookDataURL = `http://localhost:4500/getBookData`;
 const DeleteBookDataURL = `http://localhost:4500/deleteBookData?bookid=`;
+
+
+
+const ModalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 600,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+};
 
 function Books() {
 
@@ -26,6 +34,11 @@ function Books() {
   const [bookNoOfPages, setBookNoOfPages] = useState(0);
 
   const[Records,setRecords]=useState([])
+  const[IssueModalOpen,setIssueModalOpen]=useState(false)
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [menuSelectRec, setMenuSelectRec] = useState()
+  const [menuOpen, setMenuOpen] = useState();
 
 
   useEffect(()=>{
@@ -47,52 +60,6 @@ function Books() {
     })
   }
 
-  const columns = [
-    {
-      field: "BookName", headerName: "Book Name",
-      headerAlign: 'center', align: 'center', flex: 1,
-    },
-    {
-      field: "Author", headerName: "Author",
-      headerAlign: 'center', align: 'center', flex: 1,
-    },
-    {
-      field: "Quantity", headerName: "Quantity",
-      headerAlign: 'center', align: 'center', flex: 1,
-    },
-    {
-      field: "category", headerName: "Category",
-      headerAlign: 'center', align: 'center', flex: 1,
-    },
-    {
-      field: "img", headerName: "Book Image",
-      headerAlign: 'center', align: 'center', flex: 1,
-      renderCell:(params)=>{
-        return(
-          <>
-          <img src={params.value} style={{height:'100%', width:'fit-content'}}></img>
-          </>
-        )
-      }
-    },
-    {
-      field: 'actions', headerName: 'Actions',
-      headerAlign: 'center', align: 'center', width: 400, flex: 1,
-      renderCell: (params) => {
-        return (
-          <>
-
-            <IconButton style={{ padding: '20px', color: '#0080FF' }}>
-              <EditIcon onClick={(e) => handleOnCellClick(e, params.row)} />
-            </IconButton>
-            <IconButton style={{ padding: '20px', color: '#FF3333' }}>
-              <DeleteIcon onClick={(e) => onHandleDelete(e, params.row)} />
-            </IconButton>
-          </>
-        )
-      }
-    }
-  ];
 
 
   const handleOnCellClick = (e, value) => {
@@ -113,9 +80,7 @@ function Books() {
     setBookPerPage(value);
   }
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [menuSelectRec, setMenuSelectRec] = useState()
-  const [menuOpen, setMenuOpen] = useState();
+
 
   const handleTaskMoreMenuClick = (item, event) => {
     setMenuSelectRec(item)
@@ -129,22 +94,31 @@ function Books() {
   };
   
   
-  const handleTaskCardEdit = (row) => {
+  const handleBookCardEdit = (row) => {
     console.log('selected record', row);
     const item = row;
     navigate("/bookdetailpage", { state: { record: { item } } })
   };
 
-  const handleReqTaskCardDelete = (e,row) => {
+  const handleBookCardDelete = (e,row) => {
 console.log(row)
     axios.post(DeleteBookDataURL+row._id)
     .then((res)=>{
       console.log(res)
+      fetchRecords()
     })
     .catch((err)=>{
       console.log(err)
     })
    
+  }
+
+  const handleModalOpen=()=>{
+    setIssueModalOpen(true)
+  }
+
+  const handleIssueModalClose=()=>{
+    setIssueModalOpen(false)
   }
 
   return (
@@ -184,15 +158,18 @@ Records
                                alignItems="center"
                                justifyContent="center"
                                >
-                              <Grid item xs={10} md={5}>
-                                  <img src={item.img}/>
+                              <Grid item xs={10} md={4}>
+                                  <img src={item.imageURL}/>
                                 </Grid>
-                                <Grid item xs={10} md={5}>
+                                <Grid item xs={10} md={4}>
                                   <div>BookName : {item.BookName} </div>
                                   <div>Author :{item.Author}</div>
                                   <div>Quantity : {item.Quantity} </div>
                                   <div>Book IdNo : {item.bookIdNo} </div>
                                   <div>Category : {item.category} </div>
+                                </Grid>
+                                <Grid item xs={2} md={2}>
+                                  <Button onClick={handleModalOpen}>Issue Book</Button>
                                 </Grid>
                                 <Grid item xs={2} md={2}>
 
@@ -211,8 +188,8 @@ Records
                                         horizontal: 'left',
                                       }}
                                     >
-                                      <MenuItem onClick={() => handleTaskCardEdit(menuSelectRec)}>Edit</MenuItem>
-                                      <MenuItem onClick={(e) => handleReqTaskCardDelete(e,menuSelectRec)}>Delete</MenuItem>
+                                      <MenuItem onClick={() => handleBookCardEdit(menuSelectRec)}>Edit</MenuItem>
+                                      <MenuItem onClick={(e) => handleBookCardDelete(e,menuSelectRec)}>Delete</MenuItem>
                                     </Menu>
                                   </IconButton>
                                 </Grid>
@@ -241,53 +218,19 @@ Records
               </Box>
             }
             </Card>
-
-
-{/*{
-  SampleBooksData.map((item)=>{
-
-    console.log(item)
-    return (
-      <Card sx={{ maxWidth: 345 }}>
-        <CardActionArea>
-          <CardMedia
-            component="img"
-            height="140"
-            image={item.img}
-            alt="green iguana"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {item.BookName}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">   Author - {item.Author} </Typography>
-            <Typography variant="body2" color="text.secondary">   Quantity - {item.Quantity} </Typography>
-            <Typography variant="body2" color="text.secondary">   BookIdNo - {item.bookIdNo} </Typography>
-            <Typography variant="body2" color="text.secondary">   Category- {item.category} </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-        </CardActions>
-      </Card>
-    );
-
-  })
-} */}
-
-      {/* <DataGrid
-        rows={SampleBooksData}
-        columns={columns}
-        getRowId={(row) => row.bookIdNo}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        disableSelectionOnClick
-        experimentalFeatures={{ newEditingApi: true }}
-      /> */}
     
+            <Modal
+        open={IssueModalOpen}
+        onClose={handleIssueModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ backdropFilter: "blur(2px)" }}
+      >
+        <Box sx={ModalStyle}>
+          ggggg
+          {/* <ModalConAccount  handleModal={handleIssueModalClose} /> */}
+        </Box>
+      </Modal>
     </>
   )
 }

@@ -74,6 +74,7 @@ function Students() {
     axios.post(DeleteStudentDataURL+value._id)
     .then((res)=>{
       console.log(res)
+      fetchRecords();
     })
     .catch((err)=>{
       console.log(err)
