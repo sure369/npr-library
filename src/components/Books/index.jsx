@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import axios from 'axios'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ModalLoockup from '../recordDetailpage/ModalLookup';
 
 const BookDataURL = `http://localhost:4500/getBookData`;
 const DeleteBookDataURL = `http://localhost:4500/deleteBookData?bookid=`;
@@ -227,8 +228,8 @@ Records
         sx={{ backdropFilter: "blur(2px)" }}
       >
         <Box sx={ModalStyle}>
-          ggggg
-          {/* <ModalConAccount  handleModal={handleIssueModalClose} /> */}
+      
+          <ModalLoockup  handleModal={handleIssueModalClose} />
         </Box>
       </Modal>
     </>
