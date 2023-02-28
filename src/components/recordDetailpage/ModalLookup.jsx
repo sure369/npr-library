@@ -21,8 +21,8 @@ const ModalLoockup = ({ item,handleModal }) => {
     const[studentRecord,setStudentRecord]=useState([])
    
     useEffect(() => {
-        console.log('passed record', location.state.record.item);
-        setParentRecord(location.state.record.item);     
+        console.log('passed record',item);
+        // setParentRecord(location.state.record.item);     
         fetchStudentRecord() 
     }, [])
 

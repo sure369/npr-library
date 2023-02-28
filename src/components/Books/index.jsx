@@ -36,6 +36,7 @@ function Books() {
 
   const[Records,setRecords]=useState([])
   const[IssueModalOpen,setIssueModalOpen]=useState(false)
+const[IssueBookRecord,setIssueBookRecord]=useState()
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [menuSelectRec, setMenuSelectRec] = useState()
@@ -114,8 +115,10 @@ console.log(row)
    
   }
 
-  const handleModalOpen=()=>{
+  const handleModalOpen=(event)=>{
     setIssueModalOpen(true)
+    console.log(event)
+    setIssueBookRecord(event.target.value)
   }
 
   const handleIssueModalClose=()=>{
@@ -170,7 +173,7 @@ Records
                                   <div>Category : {item.category} </div>
                                 </Grid>
                                 <Grid item xs={2} md={2}>
-                                  <Button onClick={handleModalOpen}>Issue Book</Button>
+                                  <Button onClick={(event)=>handleModalOpen(event)}>Issue Book</Button>
                                 </Grid>
                                 <Grid item xs={2} md={2}>
 
@@ -229,7 +232,7 @@ Records
       >
         <Box sx={ModalStyle}>
       
-          <ModalLoockup  handleModal={handleIssueModalClose} />
+          <ModalLoockup data={IssueBookRecord}  handleModal={handleIssueModalClose} />
         </Box>
       </Modal>
     </>
