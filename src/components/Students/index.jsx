@@ -102,7 +102,7 @@ function Students() {
       <DataGrid
         rows={Records}
         columns={columns}
-        getRowId={(row) => row.StudnetRollNo}
+        getRowId={(row) => row._id}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
