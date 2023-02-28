@@ -1,11 +1,11 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { SampleBooksData } from '../Data\'s/booksData';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid } from '@mui/x-data-grid';
 import '../styles/newForm.css'
 import { useNavigate } from 'react-router-dom';
-import CardView from './IndexCardView';
+
 import {
   Card, CardContent, Box, Button, Typography, Modal
   , IconButton, Grid, Accordion, AccordionSummary, AccordionDetails, Pagination, Menu, MenuItem
@@ -14,6 +14,8 @@ import axios from 'axios'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
+const BookDataURL = `${process.env.REACT_APP_SERVER_URL}/getBookData`;
+const DeleteBookDataURL = `${process.env.REACT_APP_SERVER_URL}/deleteBookData?bookid=`;
 
 function Books() {
 
@@ -21,25 +23,26 @@ function Books() {
 
   const [bookItemsPerPage, setBookItemsPerPage] = useState(2);
   const [bookPerPage, setBookPerPage] = useState(1);
-  const [taskNoOfPages, setTaskNoOfPages] = useState(0);
+  const [bookNoOfPages, setBookNoOfPages] = useState(0);
 
-  const responsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-      slidesToSlide: 3 // optional, default to 1.
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-      slidesToSlide: 2 // optional, default to 1.
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-      slidesToSlide: 1 // optional, default to 1.
-    }
-  };
+  const[Records,setRecords]=useState([])
+
+  useEffect(()=>{
+    fetchRecords();
+
+  })
+
+  const fetchRecords=()=>{
+    axios.post(BookDataURL)
+    .then((res)=>{
+      console.log(res.data)
+      setRecords(res.data)
+      setBookNoOfPages(Math.ceil(res.data.length / bookItemsPerPage));
+    })
+    .cath((err)=>{
+      console.log(err)
+    })
+  }
 
   const columns = [
     {
@@ -130,8 +133,14 @@ function Books() {
   };
 
   const handleReqTaskCardDelete = (e,row) => {
-
-console.log('inside handleTaskCardDelete fn')
+console.log(row)
+    axios.post(DeleteBookDataURL+row._id)
+    .then((res)=>{
+      console.log(res)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
    
   }
 
@@ -155,8 +164,8 @@ console.log('inside handleTaskCardDelete fn')
 
               {
 
-SampleBooksData.length > 0 ?
-SampleBooksData
+Records.length > 0 ?
+Records
                     .slice((bookPerPage - 1) * bookItemsPerPage, bookPerPage * bookItemsPerPage)
                     .map((item) => {
                       
@@ -166,7 +175,12 @@ SampleBooksData
                             <div
                               key={item._id}
                             >
-                              <Grid container spacing={2}>
+                              <Grid 
+                              container 
+                              spacing={2}
+                               alignItems="center"
+                               justifyContent="center"
+                               >
                               <Grid item xs={10} md={5}>
                                   <img src={item.img}/>
                                 </Grid>
@@ -212,7 +226,7 @@ SampleBooksData
               SampleBooksData.length > 0 &&
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Pagination
-                  count={taskNoOfPages}
+                  count={bookNoOfPages}
                   page={bookPerPage}
                   onChange={handleChangeBookPage}
                   defaultPage={1}

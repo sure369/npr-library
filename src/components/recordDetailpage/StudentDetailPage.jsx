@@ -6,7 +6,7 @@ import { Grid, Button, DialogActions, Box, TextField, Autocomplete, Select, Form
 import { useParams, useNavigate } from "react-router-dom"
 import axios from 'axios'
 
-const url = `${process.env.REACT_APP_SERVER_URL}/UpsertStudent`;
+const url = `${process.env.REACT_APP_SERVER_URL}/upsertSudentData`;
 
 const StudentDetailPage = ({ item }) => {
 
@@ -14,8 +14,7 @@ const StudentDetailPage = ({ item }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [showNew, setshowNew] = useState(true)
-  // notification
-  const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
+
 
   useEffect(() => {
     console.log('passed record', location.state.record.value);
@@ -60,23 +59,14 @@ const StudentDetailPage = ({ item }) => {
     axios.post(url, values)
       .then((res) => {
         console.log('upsert record  response', res);
-        setNotify({
-          isOpen: true,
-          message: res.data,
-          type: 'success'
-
-        })
+       
         setTimeout(() => {
           navigate(-1);
         }, 2000)
       })
       .catch((error) => {
         console.log('upsert record  error', error);
-        setNotify({
-          isOpen: true,
-          message: error.message,
-          type: 'error'
-        })
+       
       })
   }
 

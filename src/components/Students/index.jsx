@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import { StudendSampleData } from '../Data\'s/stdData'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -6,10 +6,28 @@ import { IconButton, Box, Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import '../styles/newForm.css'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const StudentDataURL = `${process.env.REACT_APP_SERVER_URL}/getStudentData`;
+const DeleteStudentDataURL = `${process.env.REACT_APP_SERVER_URL}/deleteStudentData?studentid=`;
 
 function Students() {
 
+  const[Records,setRecords]=useState([])
+
   const navigate =useNavigate()
+  useEffect(()=>{
+    fetchRecords();
+  },[])
+
+  const fetchRecords=()=>{
+    axios.post(StudentDataURL)
+    .then((res)=>{
+      console.log(res)
+      setRecords(res.data)
+
+    })
+  }
 
   const columns = [
     {
@@ -53,7 +71,13 @@ function Students() {
      navigate("/studentdetailpage", {state:{ record: {value} }})
   }
   const onHandleDelete = (e, value) => {
-    console.log(value)
+    axios.post(DeleteStudentDataURL+value._id)
+    .then((res)=>{
+      console.log(res)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
   }
 
 
@@ -76,7 +100,7 @@ function Students() {
 
 
       <DataGrid
-        rows={StudendSampleData}
+        rows={Records}
         columns={columns}
         getRowId={(row) => row.StudnetRollNo}
         pageSize={5}
