@@ -30,16 +30,18 @@ function Books() {
   useEffect(()=>{
     fetchRecords();
 
-  })
+  },[])
 
   const fetchRecords=()=>{
     axios.post(BookDataURL)
     .then((res)=>{
-      console.log(res.data)
+      console.log(res)
       setRecords(res.data)
-      setBookNoOfPages(Math.ceil(res.data.length / bookItemsPerPage));
+        // setBookNoOfPages(Math.ceil(res.data.length / bookItemsPerPage))
+
+
     })
-    .cath((err)=>{
+    .catch((err)=>{
       console.log(err)
     })
   }
@@ -223,7 +225,7 @@ Records
                   : ""
               }
  {
-              SampleBooksData.length > 0 &&
+              Records.length > 0 &&
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Pagination
                   count={bookNoOfPages}
