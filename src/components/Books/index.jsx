@@ -15,7 +15,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const BookDataURL = `http://localhost:4500/getBookData`;
-const DeleteBookDataURL = `${process.env.REACT_APP_SERVER_URL}/deleteBookData?bookid=`;
+const DeleteBookDataURL = `http://localhost:4500/deleteBookData?bookid=`;
 
 function Books() {
 

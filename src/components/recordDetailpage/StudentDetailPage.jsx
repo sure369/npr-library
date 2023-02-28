@@ -6,7 +6,7 @@ import { Grid, Button, DialogActions, Box, TextField, Autocomplete, Select, Form
 import { useParams, useNavigate } from "react-router-dom"
 import axios from 'axios'
 
-const url = `${process.env.REACT_APP_SERVER_URL}/upsertSudentData`;
+const url = `http://localhost:4500/upsertSudentData`;
 
 const StudentDetailPage = ({ item }) => {
 

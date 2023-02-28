@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const StudentDataURL = `http://localhost:4500/getStudentData`;
-const DeleteStudentDataURL = `${process.env.REACT_APP_SERVER_URL}/deleteStudentData?studentid=`;
+const DeleteStudentDataURL = `http://localhost:4500/deleteStudentData?studentid=`;
 
 function Students() {
 
