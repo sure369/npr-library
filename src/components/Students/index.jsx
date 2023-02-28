@@ -8,7 +8,7 @@ import '../styles/newForm.css'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const StudentDataURL = `${process.env.REACT_APP_SERVER_URL}/getStudentData`;
+const StudentDataURL = `http://localhost:4500/getStudentData`;
 const DeleteStudentDataURL = `${process.env.REACT_APP_SERVER_URL}/deleteStudentData?studentid=`;
 
 function Students() {
