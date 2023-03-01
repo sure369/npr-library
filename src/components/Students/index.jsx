@@ -67,8 +67,9 @@ function Students() {
 
 
   const handleOnCellClick = (e, value) => {
-    console.log(value)
-     navigate("/studentdetailpage", {state:{ record: {value} }})
+    console.log('handleOnCellClick',value)
+    const item=value
+     navigate("/studentdetailpage", {state:{ record: {item} }})
   }
   const onHandleDelete = (e, value) => {
     axios.post(DeleteStudentDataURL+value._id)
@@ -101,7 +102,7 @@ function Students() {
 
 
       <DataGrid
-        rows={StudendSampleData}
+        rows={Records}
         columns={columns}
         getRowId={(row) => row._id}
         pageSize={5}

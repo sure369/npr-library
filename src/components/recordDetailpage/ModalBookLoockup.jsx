@@ -10,20 +10,20 @@ import axios from 'axios'
 
 
 const url = `http://localhost:4500/`;
-const fetchStudentsbyName ='http://localhost:4500/lookupStudent'
+const fetchBooksbyName ='http://localhost:4500/lookupBook'
 
-const ModalStudentLoockup = ({ data,handleModal }) => {
+const ModalBookLoockup = ({ data,handleModal }) => {
 
     const [parentRecord, setParentRecord] = useState();
     const location = useLocation();
     const navigate = useNavigate();
 
-    const[studentRecord,setStudentRecord]=useState([])
+    const[bookRecord,setBookRecord]=useState([])
    
     useEffect(() => {
         console.log('passed record Modal Page',data);
          setParentRecord(data);     
-        fetchStudentRecord('') 
+        fetchBookRecord('') 
     }, [])
 
     const initialValues = {
@@ -66,14 +66,14 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
         })
     }
 
-    const fetchStudentRecord=(newInputValue)=>{
-        axios.post(`${fetchStudentsbyName}?searchKey=${newInputValue}`)
+    const fetchBookRecord=(newInputValue)=>{
+        axios.post(`${fetchBooksbyName}?searchKey=${newInputValue}`)
         .then((res) => {
            console.log(res);
-                setStudentRecord(res.data)
+                setBookRecord(res.data)
         })
         .catch((error) => {
-            console.log('error fetchStudentsbyName', error);
+            console.log('error fetchBooksbyName', error);
         })
     }
 
@@ -108,13 +108,13 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
                                 <Form>
                                     <Grid container spacing={2}>
                                         <Grid item xs={6} md={6}>
-                                            <label htmlFor="relatedField">   Student Name <span className="text-danger">*</span></label>
+                                            <label htmlFor="relatedField">  select Book <span className="text-danger">*</span></label>
                                             <Autocomplete
                                                 name="relatedField"
                                                 className='form-customSelect'
-                                                options={studentRecord}
+                                                options={bookRecord}
                                                 value={values.relatedField}
-                                                getOptionLabel={option => option.studentName || ''}
+                                                getOptionLabel={option => option.bookName || ''}
                                                 onChange={(e, value) => {
                                                 console.log('autocomplete onchange ',value)
                                                     if(!value){                                
@@ -132,10 +132,10 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
                                                 onInputChange={(event, newInputValue) => {
                                                     console.log('onInputChange entered value', newInputValue);
                                                     if (newInputValue.length >= 3) {
-                                                        fetchStudentRecord(newInputValue);
+                                                        fetchBookRecord(newInputValue);
                                                     }
                                                     else if (newInputValue.length == 0) {
-                                                        fetchStudentRecord(newInputValue);
+                                                        fetchBookRecord(newInputValue);
                                                     }
                                                 }}
                                                 renderInput={params => (
@@ -165,4 +165,4 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
     )
 }
 
-export default ModalStudentLoockup;
+export default ModalBookLoockup;

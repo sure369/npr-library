@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import axios from 'axios'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ModalLoockup from '../recordDetailpage/ModalLookup';
+import ModalStudentLoockup from '../recordDetailpage/ModalStudentLoockup'
 
 const BookDataURL = `http://localhost:4500/getBookData`;
 const DeleteBookDataURL = `http://localhost:4500/deleteBookData?bookid=`;
@@ -145,8 +145,8 @@ console.log(row)
 
               {
 
-SampleBooksData.length > 0 ?
-SampleBooksData
+Records.length > 0 ?
+Records
                     .slice((bookPerPage - 1) * bookItemsPerPage, bookPerPage * bookItemsPerPage)
                     .map((item) => {
                       
@@ -162,19 +162,17 @@ SampleBooksData
                                alignItems="center"
                                justifyContent="center"
                                >
-                              <Grid item xs={10} md={4}>
+                              <Grid item xs={10} md={5}>
                                   <img src={item.imageURL}/>
                                 </Grid>
-                                <Grid item xs={10} md={4}>
+                                <Grid item xs={10} md={5}>
                                   <div>BookName : {item.BookName} </div>
                                   <div>Author :{item.Author}</div>
                                   <div>Quantity : {item.Quantity} </div>
                                   <div>Book IdNo : {item.bookIdNo} </div>
                                   <div>Category : {item.category} </div>
                                 </Grid>
-                                <Grid item xs={2} md={2}>
-                                  <Button onClick={(event)=>handleModalOpen(event)}>Issue Book</Button>
-                                </Grid>
+
                                 <Grid item xs={2} md={2}>
 
                                   <IconButton>
@@ -207,7 +205,7 @@ SampleBooksData
                   : ""
               }
  {
-              SampleBooksData.length > 0 &&
+              Records.length > 0 &&
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Pagination
                   count={bookNoOfPages}
@@ -232,7 +230,7 @@ SampleBooksData
       >
         <Box sx={ModalStyle}>
       
-          <ModalLoockup data={IssueBookRecord}  handleModal={handleIssueModalClose} />
+          <ModalStudentLoockup data={IssueBookRecord}  handleModal={handleIssueModalClose} />
         </Box>
       </Modal>
     </>
