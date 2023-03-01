@@ -101,7 +101,7 @@ function Students() {
 
 
       <DataGrid
-        rows={Records}
+        rows={StudendSampleData}
         columns={columns}
         getRowId={(row) => row._id}
         pageSize={5}

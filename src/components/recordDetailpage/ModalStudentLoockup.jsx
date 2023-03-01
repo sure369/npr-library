@@ -12,7 +12,7 @@ import axios from 'axios'
 const url = `http://localhost:4500/`;
 const fetchInventoriesbyName ='http://localhost:4500/lookupStudent'
 
-const ModalLoockup = ({ item,handleModal }) => {
+const ModalStudentLoockup = ({ item,handleModal }) => {
 
     const [parentRecord, setParentRecord] = useState();
     const location = useLocation();
@@ -110,10 +110,10 @@ const ModalLoockup = ({ item,handleModal }) => {
                               
                                 <Form>
                                     <Grid container spacing={2}>
-                                        <Grid item xs={6} md={6}>
+                                        {/* <Grid item xs={6} md={6}>
                                             <label htmlFor="BookName">BookName</label>
                                             <Field name="BookName" type="text" class="form-input" />
-                                        </Grid>
+                                        </Grid> */}
                                         <Grid item xs={6} md={6}>
                                             <label htmlFor="relatedField">Student Name </label>
                                             <Autocomplete
@@ -173,4 +173,4 @@ console.log(value)
     )
 }
 
-export default ModalLoockup;
+export default ModalStudentLoockup;

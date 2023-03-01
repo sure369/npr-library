@@ -103,11 +103,11 @@ const BookDetailPage = ({ item }) => {
             return (
               <>
                 <div className='form_center_box'>
-                  <Box
+                  {/* <Box
                     display="flex"
                     width={500} height={500}
-                    bgcolor="aliceblue"
-                  >
+                  
+                  > */}
                     <Box m="auto">
                       <Form>
                         <Grid container spacing={2}>
@@ -159,7 +159,7 @@ const BookDetailPage = ({ item }) => {
                         </div>
                       </Form>
                     </Box>
-                  </Box>
+                  {/* </Box> */}
                 </div>
               </>
             )

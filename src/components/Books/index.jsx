@@ -32,7 +32,7 @@ function Books() {
 
   const [bookItemsPerPage, setBookItemsPerPage] = useState(2);
   const [bookPerPage, setBookPerPage] = useState(1);
-  const [bookNoOfPages, setBookNoOfPages] = useState(0);
+  const [bookNoOfPages, setBookNoOfPages] = useState((Math.ceil(SampleBooksData.length / bookItemsPerPage)));
 
   const[Records,setRecords]=useState([])
   const[IssueModalOpen,setIssueModalOpen]=useState(false)
@@ -145,8 +145,8 @@ console.log(row)
 
               {
 
-Records.length > 0 ?
-Records
+SampleBooksData.length > 0 ?
+SampleBooksData
                     .slice((bookPerPage - 1) * bookItemsPerPage, bookPerPage * bookItemsPerPage)
                     .map((item) => {
                       
@@ -207,7 +207,7 @@ Records
                   : ""
               }
  {
-              Records.length > 0 &&
+              SampleBooksData.length > 0 &&
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Pagination
                   count={bookNoOfPages}
