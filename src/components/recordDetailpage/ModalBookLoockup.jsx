@@ -9,7 +9,7 @@ import axios from 'axios'
 
 
 
-const url = `http://localhost:4500/`;
+const url = 'http://localhost:4500/getSingleStudent'
 const fetchBooksbyName ='http://localhost:4500/lookupBook'
 
 const ModalBookLoockup = ({ data,handleModal }) => {
@@ -49,7 +49,7 @@ const ModalBookLoockup = ({ data,handleModal }) => {
         values.bookRecordId=parentRecord._id;
         console.log('after  submission value',values);
 
-        axios.post(url, values)
+        axios.post('http://localhost:4500/getSingleStudent', values)
         .then((res) => {
             console.log('upsert record  response', res);
            
@@ -114,18 +114,15 @@ const ModalBookLoockup = ({ data,handleModal }) => {
                                                 className='form-customSelect'
                                                 options={bookRecord}
                                                 value={values.relatedField}
-                                                getOptionLabel={option => option.bookName || ''}
+                                                getOptionLabel={option => option.BookName || ''}
                                                 onChange={(e, value) => {
                                                 console.log('autocomplete onchange ',value)
                                                     if(!value){                                
                                                         console.log('!value',value);
-                                                        setFieldValue("studentRecordId",'')
-                                                        setFieldValue("studentName",'')
-                                                        setFieldValue("relatedField",'')
+                                                      
                                                       }else{
                                                         console.log('value',value);
-                                                        setFieldValue("studentRecordId",value.id)
-                                                        setFieldValue("studentName",value.studentName)
+                                                       
                                                         setFieldValue("relatedField",value)
                                                       }
                                                 }}

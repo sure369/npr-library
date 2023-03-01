@@ -50,11 +50,13 @@ const BookRelatedItems = ({ item }) => {
     getStudentsbyBookId(location.state.record.item._id);
   }, []);
 
+
+
   const getStudentsbyBookId = (bookId) => {
     console.log("inside getStudentsbyBookId record Id", bookId);
 
     axios
-      .post(urlgetStudentsbyBookId + bookId)
+      .post(urlgetStudentsbyBookId+bookId)
       .then((res) => {
         console.log("response getStudentsbyBookId fetch", res);
         if (res.data.length > 0) {
@@ -79,7 +81,7 @@ const BookRelatedItems = ({ item }) => {
   return (
     <>
       <div style={{ textAlign: "center", marginBottom: "10px" }}>
-        <h3> Issued Book Items</h3>
+        <h3> Related Items</h3>
       </div>
       <Accordion>
         <AccordionSummary
