@@ -69,7 +69,7 @@ const ModalBookLoockup = ({ data,handleModal }) => {
     const fetchBookRecord=(newInputValue)=>{
         axios.post(`${fetchBooksbyName}?searchKey=${newInputValue}`)
         .then((res) => {
-           console.log(res);
+        console.log(res);
                 setBookRecord(res.data)
         })
         .catch((error) => {
