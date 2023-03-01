@@ -9,22 +9,21 @@ import axios from 'axios'
 
 
 
-const url = `http://localhost:4500/getSingleStudent`;
-const fetchStudentsbyName ='http://localhost:4500/lookupStudent'
+const url = 'http://localhost:4500/getSingleStudent'
+const fetchBooksbyName ='http://localhost:4500/lookupBook'
 
-const ModalStudentLoockup = ({ data,handleModal }) => {
+const ModalBookLoockup = ({ data,handleModal }) => {
 
     const [parentRecord, setParentRecord] = useState();
     const location = useLocation();
     const navigate = useNavigate();
 
-    const[studentRecord,setStudentRecord]=useState([])
+    const[bookRecord,setBookRecord]=useState([])
    
     useEffect(() => {
         console.log('passed record Modal Page',data);
          setParentRecord(data);     
-        fetchStudentRecord('')
-        getRelatedRecord() 
+        fetchBookRecord('') 
     }, [])
 
     const initialValues = {
@@ -39,18 +38,6 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
         //     .required('Required')
     })
 
-    const getRelatedRecord=()=>{
-        console.log('getRelatedRecord',getRelatedRecord)
-        axios.post(url , parentRecord._id)
-        .then(res=>{
-            console.log('inside use effect',res)
-
-        })
-        .catch(err=>{
-            console.log('use effect err',err);
-        })
-    }
-
     const formSubmission = (values) => {
    
         console.log('form submission value',values);
@@ -62,7 +49,7 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
         values.bookRecordId=parentRecord._id;
         console.log('after  submission value',values);
 
-        axios.post(url, values)
+        axios.post('http://localhost:4500/getSingleStudent', values)
         .then((res) => {
             console.log('upsert record  response', res);
            
@@ -79,14 +66,14 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
         })
     }
 
-    const fetchStudentRecord=(newInputValue)=>{
-        axios.post(`${fetchStudentsbyName}?searchKey=${newInputValue}`)
+    const fetchBookRecord=(newInputValue)=>{
+        axios.post(`${fetchBooksbyName}?searchKey=${newInputValue}`)
         .then((res) => {
-           console.log(res)
-                setStudentRecord(res.data)
+           console.log(res);
+                setBookRecord(res.data)
         })
         .catch((error) => {
-            console.log('error fetchStudentsbyName', error);
+            console.log('error fetchBooksbyName', error);
         })
     }
 
@@ -121,34 +108,31 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
                                 <Form>
                                     <Grid container spacing={2}>
                                         <Grid item xs={6} md={6}>
-                                            <label htmlFor="relatedField">   Student Name <span className="text-danger">*</span></label>
+                                            <label htmlFor="relatedField">  select Book <span className="text-danger">*</span></label>
                                             <Autocomplete
                                                 name="relatedField"
                                                 className='form-customSelect'
-                                                options={studentRecord}
+                                                options={bookRecord}
                                                 value={values.relatedField}
-                                                getOptionLabel={option => option.studentName || ''}
+                                                getOptionLabel={option => option.BookName || ''}
                                                 onChange={(e, value) => {
                                                 console.log('autocomplete onchange ',value)
                                                     if(!value){                                
                                                         console.log('!value',value);
-                                                        setFieldValue("studentRecordId",'')
-                                                        setFieldValue("studentName",'')
-                                                        setFieldValue("relatedField",'')
+                                                      
                                                       }else{
                                                         console.log('value',value);
-                                                        setFieldValue("studentRecordId",value.id)
-                                                        setFieldValue("studentName",value.studentName)
+                                                       
                                                         setFieldValue("relatedField",value)
                                                       }
                                                 }}
                                                 onInputChange={(event, newInputValue) => {
                                                     console.log('onInputChange entered value', newInputValue);
                                                     if (newInputValue.length >= 3) {
-                                                        fetchStudentRecord(newInputValue);
+                                                        fetchBookRecord(newInputValue);
                                                     }
                                                     else if (newInputValue.length == 0) {
-                                                        fetchStudentRecord(newInputValue);
+                                                        fetchBookRecord(newInputValue);
                                                     }
                                                 }}
                                                 renderInput={params => (
@@ -178,4 +162,4 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
     )
 }
 
-export default ModalStudentLoockup;
+export default ModalBookLoockup;

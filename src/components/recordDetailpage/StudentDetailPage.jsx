@@ -17,10 +17,10 @@ const StudentDetailPage = ({ item }) => {
 
 
   useEffect(() => {
-    console.log('passed record', location.state.record.value);
+    console.log('StudentDetailPage ', location.state.record.item);
 
-    setPassedRecord(location.state.record.value);
-    setshowNew(!location.state.record.value)
+    setPassedRecord(location.state.record.item);
+    setshowNew(!location.state.record.item)
 
     // setPassedRecord(location.state.record);
     // console.log('true', !location.state.record.item);
@@ -104,11 +104,6 @@ const StudentDetailPage = ({ item }) => {
             return (
               <>
                 <div className='form_center_box'>
-                  <Box
-                    display="flex"
-                    width={500} height={500}
-                    bgcolor="aliceblue"
-                  >
                     <Box m="auto">
                       <Form>
                         <Grid container spacing={2}>
@@ -155,7 +150,6 @@ const StudentDetailPage = ({ item }) => {
                         </div>
                       </Form>
                     </Box>
-                  </Box>
                 </div>
               </>
             )

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -19,7 +20,7 @@ import {
 import axios from "axios";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ModalStudentLoockup from "../recordDetailpage/ModalStudentLoockup";
+import ModalBookLoockup from "../recordDetailpage/ModalBookLoockup";
 
 const ModalStyle = {
   position: "absolute",
@@ -32,56 +33,53 @@ const ModalStyle = {
   boxShadow: 24,
 };
 
-const BookRelatedItems = ({ item }) => {
+const StudentRelatedItems = ({ props }) => {
 
-  const urlgetStudentsbyBookId = `http://localhost:4500/getStudentsbyBookId?searchId=`;
+  const urlgetBooksbyStudentId = `http://localhost:4500/getBooksbyStudentId?searchId=`;
 
-  const navigate = useNavigate();
+
   const location = useLocation();
 
-  const [bookRecordId, setBookRecordId] = useState();
-  const [relatedStudents, setRelatedStudents] = useState([]);
-
-  const [studentModalOpen, setStudentModalOpen] = useState(false);
+  const [studentRecordId, setStudentRecordId] = useState();
+  const [relatedBooks, setRelatedBooks] = useState([]);
+  const [bookModalOpen, setBookModalOpen] = useState(false);
 
   useEffect(() => {
     console.log("passed book record", location.state.record.item);
-    setBookRecordId(location.state.record.item._id);
-    getStudentsbyBookId(location.state.record.item._id);
+    setStudentRecordId(location.state.record.item._id);
+    getBooksbyStudentId(location.state.record.item._id);
   }, []);
 
-
-
-  const getStudentsbyBookId = (bookId) => {
-    console.log("inside getStudentsbyBookId record Id", bookId);
+  const getBooksbyStudentId = (stdId) => {
+    console.log("inside getBooksbyStudentId record Id", stdId);
 
     axios
-      .post(urlgetStudentsbyBookId+bookId)
+      .post(urlgetBooksbyStudentId + stdId)
       .then((res) => {
-        console.log("response getStudentsbyBookId fetch", res);
+        console.log("response getBooksbyStudentId fetch", res);
         if (res.data.length > 0) {
-          setRelatedStudents(res.data);
+          setRelatedBooks(res.data);
         } else {
-          setRelatedStudents([]);
+          setRelatedBooks([]);
         }
       })
       .catch((error) => {
-        console.log("error getStudentsbyBookId fetch", error);
+        console.log("error getBooksbyStudentId fetch", error);
       });
   };
 
-  const handleStudentModalOpen = () => {
-    setStudentModalOpen(true);
+  const handleBookModalOpen = () => {
+    setBookModalOpen(true);
   };
-  const handleStudentModalClose = () => {
-    setStudentModalOpen(false);
-    setRelatedStudents(bookRecordId);
+  const handleBookModalClose = () => {
+    setBookModalOpen(false);
+    setRelatedBooks(studentRecordId);
   };
 
   return (
     <>
       <div style={{ textAlign: "center", marginBottom: "10px" }}>
-        <h3> Related Items</h3>
+        <h3> Issued Book Items</h3>
       </div>
       <Accordion>
         <AccordionSummary
@@ -90,7 +88,7 @@ const BookRelatedItems = ({ item }) => {
           id="panel1a-header"
         >
           <Typography variant="h6">
-            Student list ({relatedStudents.length})
+             Books list ({relatedBooks.length})
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -99,24 +97,21 @@ const BookRelatedItems = ({ item }) => {
               <Button
                 variant="contained"
                 color="info"
-                onClick={() => handleStudentModalOpen()}
+                onClick={() => handleBookModalOpen()}
               >
-                Issue Book
+                Add Book
               </Button>
             </div>
             <Card dense compoent="span">
-              {relatedStudents.length > 0
-                ? relatedStudents.map((item) => {
+              {relatedBooks.length > 0
+                ? relatedBooks.map((item) => {
                     return (
                       <div>
                         <CardContent sx={{ bgcolor: "white", m: "15px" }}>
                           <div key={item._id}>
                             <Grid container spacing={2}>
                               <Grid item xs={12} md={12}>
-                                <div>
-                                  Student Name :{" "}
-                                  {item.FirstName + item.LastName}{" "}
-                                </div>
+                                <div>Student Name :{item.FirstName + item.LastName}</div>
                                 <div>Department :{item.Department}</div>
                                 <div>Year : {item.Year} </div>
                               </Grid>
@@ -132,20 +127,20 @@ const BookRelatedItems = ({ item }) => {
         </AccordionDetails>
       </Accordion>
       <Modal
-        open={studentModalOpen}
-        onClose={handleStudentModalClose}
+        open={bookModalOpen}
+        onClose={handleBookModalClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         sx={{ backdropFilter: "blur(2px)" }}
       >
         <Box sx={ModalStyle}>
-          <ModalStudentLoockup
+          <ModalBookLoockup
             data={location.state.record.item}
-            handleModal={handleStudentModalClose}
+            handleModal={handleBookModalClose}
           />
         </Box>
       </Modal>
     </>
   );
 };
-export default BookRelatedItems;
+export default StudentRelatedItems;

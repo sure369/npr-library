@@ -6,6 +6,7 @@ import Books from "./components/Books";
 import StudentDetailPage from "./components/recordDetailpage/StudentDetailPage";
 import BookDetailPage from "./components/recordDetailpage/BookDetailPage";
 import FlexBooks from "./components/FlexBox/FlexBooks";
+import FlexSudents from "./components/FlexBox/FlexSudents";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Route path="/" element={<Students />} />
           <Route path="/students" element={<Students />} />
           <Route path="/books" element={<Books />} />
-          <Route path='/studentdetailpage' element={<StudentDetailPage/>}/>
+          <Route path='/studentdetailpage' element={<FlexSudents/>}/>
           <Route path ='/bookdetailpage' element={<FlexBooks/>}/>
         </Routes>
       </BrowserRouter>
