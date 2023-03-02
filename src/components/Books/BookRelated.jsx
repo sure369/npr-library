@@ -32,7 +32,7 @@ const ModalStyle = {
   boxShadow: 24,
 };
 
-const BookRelatedItems = ({ item }) => {
+const BookRelatedItems = ({ item ,stockqty}) => {
 
   const urlgetStudentsbyBookId = `http://localhost:4500/getStudentsbyBookId?searchId=`;
 
@@ -45,6 +45,7 @@ const BookRelatedItems = ({ item }) => {
   const [studentModalOpen, setStudentModalOpen] = useState(false);
 
   useEffect(() => {
+
     console.log("passed book record", location.state.record.item);
     if(location.state.record.item){
     setBookRecordId(location.state.record.item._id);
@@ -52,6 +53,8 @@ const BookRelatedItems = ({ item }) => {
     }
   }, []);
 
+
+ 
 
 
   const getStudentsbyBookId = (bookId) => {
@@ -63,6 +66,7 @@ const BookRelatedItems = ({ item }) => {
         console.log("response getStudentsbyBookId fetch", res);
         if (res.data.length > 0) {
           setRelatedStudents(res.data);
+          stockqty(res.data.length)
         } else {
           setRelatedStudents([]);
         }
@@ -77,7 +81,7 @@ const BookRelatedItems = ({ item }) => {
   };
   const handleStudentModalClose = () => {
     setStudentModalOpen(false);
-    setRelatedStudents(bookRecordId);
+    getStudentsbyBookId(bookRecordId);
   };
 
   return (

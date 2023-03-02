@@ -8,8 +8,7 @@ import axios from 'axios'
 
 
 
-
-const url = `http://localhost:4500/getSingleStudent`;
+const loockupSubmit=`http://localhost:4500/updateStudentBook`
 const fetchStudentsbyName ='http://localhost:4500/lookupStudent'
 
 const ModalStudentLoockup = ({ data,handleModal }) => {
@@ -24,7 +23,6 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
         console.log('passed record Modal Page',data);
          setParentRecord(data);     
         fetchStudentRecord('')
-        getRelatedRecord() 
     }, [])
 
     const initialValues = {
@@ -39,17 +37,6 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
         //     .required('Required')
     })
 
-    const getRelatedRecord=()=>{
-        console.log('getRelatedRecord',getRelatedRecord)
-        axios.post(url , parentRecord._id)
-        .then(res=>{
-            console.log('inside use effect',res)
-
-        })
-        .catch(err=>{
-            console.log('use effect err',err);
-        })
-    }
 
     const formSubmission = (values) => {
    
@@ -62,7 +49,7 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
         values.bookRecordId=parentRecord._id;
         console.log('after  submission value',values);
 
-        axios.post(url, values)
+        axios.post(loockupSubmit, values)
         .then((res) => {
             console.log('upsert record  response', res);
            

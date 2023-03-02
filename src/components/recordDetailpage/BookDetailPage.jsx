@@ -8,7 +8,7 @@ import axios from 'axios'
 
 const upsertURL = `http://localhost:4500/upsertBookData`;
 
-const BookDetailPage = ({ item }) => {
+const BookDetailPage = ({ item, stockqty }) => {
 
   const [passedRecord, setPassedRecord] = useState();
   const location = useLocation();
@@ -30,7 +30,7 @@ const BookDetailPage = ({ item }) => {
     Quantity: '',
     category: '',
     bookIdNo: '',
-    imageURL:'',
+    imageURL: '',
   }
 
   const savedValues = {
@@ -40,7 +40,7 @@ const BookDetailPage = ({ item }) => {
     category: passedRecord?.category ?? "",
     bookIdNo: passedRecord?.bookIdNo ?? "",
     _id: passedRecord?._id ?? "",
-    imageURL:passedRecord?.imageURL??"",
+    imageURL: passedRecord?.imageURL ?? "",
   }
 
 
@@ -58,17 +58,17 @@ const BookDetailPage = ({ item }) => {
     axios.post(upsertURL, values)
       .then((res) => {
         console.log('upsert record  response', res);
-       
+
         setTimeout(() => {
           navigate(-1);
         }, 2000)
       })
       .catch((error) => {
         console.log('upsert record  error', error);
-        
+
       })
   }
-
+  console.log(stockqty, "detail page")
   const handleFormClose = () => {
     navigate(-1)
   }
@@ -108,57 +108,65 @@ const BookDetailPage = ({ item }) => {
                     width={500} height={500}
                   
                   > */}
-                    <Box m="auto">
-                      <Form>
-                        <Grid container spacing={2}>
-                          <Grid item xs={6} md={6}>
-                            <FormLabel htmlFor="BookName">BookName  <span className="text-danger">*</span></FormLabel>
-                            <Field name="BookName" type="text" class="form-input" />
-                            <div style={{ color: 'red' }}>
-                              <ErrorMessage name="BookName" />
-                            </div>
-                          </Grid>
-                          <Grid item xs={6} md={6}>
-                            <FormLabel htmlFor="Author">Author </FormLabel>
-                            <Field name="Author" type="text" class="form-input" />
-                          </Grid>
-                          <Grid item xs={6} md={6}>
-                            <FormLabel htmlFor="Quantity">Quantity </FormLabel>
-                            <Field name="Quantity" type="number" class="form-input" />
-                          </Grid>
-                          <Grid item xs={6} md={6}>
-                            <FormLabel htmlFor="bookIdNo">bookIdNo</FormLabel>
-                            <Field class="form-input" type="text" name="bookIdNo" />
-                          </Grid>
-                          <Grid item xs={6} md={6}>
-                            <FormLabel htmlFor="category">category</FormLabel>
-                            <Field name="category" as='select' class='form-input'>
-                              <option value=""><em>None</em></option>
-                              <option value="Economics">Economics</option>
-                              <option value="Arts">Arts</option>
-                              <option value="Crime">Crime</option>
-                              <option value="History">History</option>
-                              <option value="Personal Development">Personal Development</option>
-                            </Field>
-                          </Grid>
-                          <Grid item xs={6} md={6}>
-                            <FormLabel htmlFor="imageURL">Image URL </FormLabel>
-                            <Field name="imageURL" type="text" class="form-input" />
-                          </Grid>
+                  <Box m="auto">
+                    <Form>
+                      <Grid container spacing={2}>
+                        <Grid item xs={6} md={6}>
+                          <FormLabel htmlFor="BookName">BookName  <span className="text-danger">*</span></FormLabel>
+                          <Field name="BookName" type="text" class="form-input" />
+                          <div style={{ color: 'red' }}>
+                            <ErrorMessage name="BookName" />
+                          </div>
                         </Grid>
-                        <div className='action-buttons'>
-                          <DialogActions sx={{ justifyContent: "space-between" }}>
-                            {
-                              showNew ?
-                                <Button type='success' variant="contained" color="secondary" disabled={isSubmitting}>Save</Button>
-                                :
-                                <Button type='success' variant="contained" color="secondary" disabled={isSubmitting}>Update</Button>
-                            }
-                            <Button type="reset" variant="contained" onClick={handleFormClose}  >Cancel</Button>
-                          </DialogActions>
-                        </div>
-                      </Form>
-                    </Box>
+                        <Grid item xs={6} md={6}>
+                          <FormLabel htmlFor="Author">Author </FormLabel>
+                          <Field name="Author" type="text" class="form-input" />
+                        </Grid>
+                        <Grid item xs={6} md={6}>
+                          <FormLabel htmlFor="Quantity">Total Books  </FormLabel>
+                          <Field name="Quantity" type="number" class="form-input" />
+                        </Grid>
+
+                        {
+                          !showNew &&
+                          <Grid item xs={6} md={6}>
+                            <FormLabel htmlFor="RemaingQuantity">Remainng Books  </FormLabel>
+                            <Field name="RemaingQuantity" type="number" readOnly value={values.Quantity-stockqty} class="form-input" />
+                          </Grid>
+                        }
+                        <Grid item xs={6} md={6}>
+                          <FormLabel htmlFor="bookIdNo">bookIdNo</FormLabel>
+                          <Field class="form-input" type="text" name="bookIdNo" />
+                        </Grid>
+                        <Grid item xs={6} md={6}>
+                          <FormLabel htmlFor="category">category</FormLabel>
+                          <Field name="category" as='select' class='form-input'>
+                            <option value=""><em>None</em></option>
+                            <option value="Economics">Economics</option>
+                            <option value="Arts">Arts</option>
+                            <option value="Crime">Crime</option>
+                            <option value="History">History</option>
+                            <option value="Personal Development">Personal Development</option>
+                          </Field>
+                        </Grid>
+                        <Grid item xs={6} md={6}>
+                          <FormLabel htmlFor="imageURL">Image URL </FormLabel>
+                          <Field name="imageURL" type="text" class="form-input" />
+                        </Grid>
+                      </Grid>
+                      <div className='action-buttons'>
+                        <DialogActions sx={{ justifyContent: "space-between" }}>
+                          {
+                            showNew ?
+                              <Button type='success' variant="contained" color="secondary" disabled={isSubmitting}>Save</Button>
+                              :
+                              <Button type='success' variant="contained" color="secondary" disabled={isSubmitting}>Update</Button>
+                          }
+                          <Button type="reset" variant="contained" onClick={handleFormClose}  >Cancel</Button>
+                        </DialogActions>
+                      </div>
+                    </Form>
+                  </Box>
                   {/* </Box> */}
                 </div>
               </>

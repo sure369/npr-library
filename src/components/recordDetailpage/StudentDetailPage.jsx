@@ -32,7 +32,7 @@ const StudentDetailPage = ({ item }) => {
     LastName: '',
     Department: '',
     Year: '',
-    StudnetRollNo: '',
+    StudentRollNo: '',
   }
 
   const savedValues = {
@@ -40,7 +40,7 @@ const StudentDetailPage = ({ item }) => {
     LastName: passedRecord?.LastName ?? "",
     Department: passedRecord?.Department ?? "",
     Year: passedRecord?.Year ?? "",
-    StudnetRollNo: passedRecord?.StudnetRollNo ?? "",
+    StudentRollNo: passedRecord?.StudentRollNo ?? "",
     _id: passedRecord?._id ?? "",
   }
 
@@ -123,8 +123,8 @@ const StudentDetailPage = ({ item }) => {
                             <Field name="Department" type="text" class="form-input" />
                           </Grid>
                           <Grid item xs={6} md={6}>
-                            <FormLabel htmlFor="StudnetRollNo">StudnetRollNo</FormLabel>
-                            <Field class="form-input" type="text" name="StudnetRollNo" />
+                            <FormLabel htmlFor="StudentRollNo">StudentRollNo</FormLabel>
+                            <Field class="form-input" type="text" name="StudentRollNo" />
                           </Grid>
                           <Grid item xs={6} md={6}>
                             <FormLabel htmlFor="Year">Year</FormLabel>

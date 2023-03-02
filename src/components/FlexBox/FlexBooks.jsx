@@ -42,6 +42,7 @@ const FlexBooks = (item) => {
 
 
   const [passedRecord, setPassedRecord] = useState();
+  const[issuedQuantity,setIssuedQuantity]=useState(0)
   const location = useLocation();
 
   useEffect(() => {
@@ -49,11 +50,15 @@ const FlexBooks = (item) => {
     console.log('passed record', location.state.record.item)
     setPassedRecord(location.state.record.item);
 
-
   }, [])
 
+  const qtyChange=(input)=>{
+    console.log('inside Flex qty change')
+    setIssuedQuantity(input)
+    console.log(issuedQuantity)
+  }
 
-
+ console.log(issuedQuantity,"issued qty")
   return (
     <div style={{ width: '100%' }}>
       <Box
@@ -61,10 +66,10 @@ const FlexBooks = (item) => {
       >
         <Grid container>
           <Grid item xs={12} md={8} >
-            <Item > <BookDetailPage props={passedRecord} /> </Item>
+            <Item > <BookDetailPage props={passedRecord} stockqty={issuedQuantity} /> </Item>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Item > <BookRelated props={passedRecord} /> </Item>
+            <Item > <BookRelated props={passedRecord} stockqty={qtyChange} /> </Item>
           </Grid>
         </Grid>
       </Box>
