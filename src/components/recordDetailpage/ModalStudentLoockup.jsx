@@ -9,7 +9,7 @@ import axios from 'axios'
 
 
 
-const url = `http://localhost:4500/`;
+const url = `http://localhost:4500/getSingleStudent`;
 const fetchStudentsbyName ='http://localhost:4500/lookupStudent'
 
 const ModalStudentLoockup = ({ data,handleModal }) => {
@@ -23,7 +23,8 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
     useEffect(() => {
         console.log('passed record Modal Page',data);
          setParentRecord(data);     
-        fetchStudentRecord('') 
+        fetchStudentRecord('')
+        getRelatedRecord() 
     }, [])
 
     const initialValues = {
@@ -37,6 +38,18 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
         //     .string()
         //     .required('Required')
     })
+
+    const getRelatedRecord=()=>{
+        console.log('getRelatedRecord',getRelatedRecord)
+        axios.post(url , parentRecord._id)
+        .then(res=>{
+            console.log('inside use effect',res)
+
+        })
+        .catch(err=>{
+            console.log('use effect err',err);
+        })
+    }
 
     const formSubmission = (values) => {
    
@@ -69,7 +82,7 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
     const fetchStudentRecord=(newInputValue)=>{
         axios.post(`${fetchStudentsbyName}?searchKey=${newInputValue}`)
         .then((res) => {
-           console.log(res);
+           console.log(res)
                 setStudentRecord(res.data)
         })
         .catch((error) => {

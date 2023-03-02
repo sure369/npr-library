@@ -35,7 +35,7 @@ const ModalStyle = {
 
 const StudentRelatedItems = ({ props }) => {
 
-  const urlgetBooksbyStudentId = `http://localhost:4500/urlgetBooksbyStudentId?searchId=`;
+  const urlgetBooksbyStudentId = `http://localhost:4500/getBooksbyStudentId?searchId=`;
 
 
   const location = useLocation();
