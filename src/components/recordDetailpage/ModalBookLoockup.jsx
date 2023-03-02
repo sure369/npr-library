@@ -9,7 +9,7 @@ import axios from 'axios'
 
 
 
-const url = 'http://localhost:4500/getSingleStudent'
+const url = 'http://localhost:4500/updateBookstudent'
 const fetchBooksbyName ='http://localhost:4500/lookupBook'
 
 const ModalBookLoockup = ({ data,handleModal }) => {
@@ -49,7 +49,7 @@ const ModalBookLoockup = ({ data,handleModal }) => {
         values.studentRecordId=parentRecord._id;
         console.log('after  submission value',values);
 
-        axios.post('http://localhost:4500/getSingleStudent', values)
+        axios.post(url, values)
         .then((res) => {
             console.log('upsert record  response', res);
            
