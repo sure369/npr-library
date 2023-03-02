@@ -45,9 +45,12 @@ const StudentRelatedItems = ({ props }) => {
   const [bookModalOpen, setBookModalOpen] = useState(false);
 
   useEffect(() => {
-    console.log("passed book record", location.state.record.item);
-    setStudentRecordId(location.state.record.item._id);
-    getBooksbyStudentId(location.state.record.item._id);
+    console.log("passed student record", location.state.record.item);
+    if(location.state.record.item){
+      setStudentRecordId(location.state.record.item._id);
+      getBooksbyStudentId(location.state.record.item._id);
+    }
+ 
   }, []);
 
   const getBooksbyStudentId = (stdId) => {

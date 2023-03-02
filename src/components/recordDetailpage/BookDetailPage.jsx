@@ -138,7 +138,7 @@ const BookDetailPage = ({ item }) => {
                               <option value="Arts">Arts</option>
                               <option value="Crime">Crime</option>
                               <option value="History">History</option>
-                              <option value="Personal Development">Personal Developmen</option>
+                              <option value="Personal Development">Personal Development</option>
                             </Field>
                           </Grid>
                           <Grid item xs={6} md={6}>

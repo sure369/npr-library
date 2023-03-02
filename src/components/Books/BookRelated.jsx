@@ -46,8 +46,10 @@ const BookRelatedItems = ({ item }) => {
 
   useEffect(() => {
     console.log("passed book record", location.state.record.item);
+    if(location.state.record.item){
     setBookRecordId(location.state.record.item._id);
     getStudentsbyBookId(location.state.record.item._id);
+    }
   }, []);
 
 

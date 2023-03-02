@@ -130,10 +130,9 @@ const StudentDetailPage = ({ item }) => {
                             <FormLabel htmlFor="Year">Year</FormLabel>
                             <Field name="Year" as='select' class='form-input'>
                               <option value=""><em>None</em></option>
-                              <option value="2020">2020</option>
-                              <option value="2021">2021</option>
-                              <option value="2022">2022</option>
-                              <option value="2023">2023</option>
+                              <option value="2020">2020-2023</option>
+                              <option value="2021">2021-2024</option>
+                              <option value="2022">2022-2025</option>
                             </Field>
                           </Grid>
                         </Grid>

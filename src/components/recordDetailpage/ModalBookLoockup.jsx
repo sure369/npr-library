@@ -45,8 +45,8 @@ const ModalBookLoockup = ({ data,handleModal }) => {
          delete values.relatedField;
         // values.studentRecordId=values.relatedField._id;
         // values.StudnetName=values.relatedField.StudnetRollNo;
-        values.bookName =parentRecord.BookName
-        values.bookRecordId=parentRecord._id;
+        values.studnetName =parentRecord.FirstName
+        values.studentRecordId=parentRecord._id;
         console.log('after  submission value',values);
 
         axios.post('http://localhost:4500/getSingleStudent', values)
@@ -116,13 +116,16 @@ const ModalBookLoockup = ({ data,handleModal }) => {
                                                 value={values.relatedField}
                                                 getOptionLabel={option => option.BookName || ''}
                                                 onChange={(e, value) => {
-                                                console.log('autocomplete onchange ',value)
+                                                    console.log('autocomplete onchange ',value)
                                                     if(!value){                                
                                                         console.log('!value',value);
-                                                      
+                                                        setFieldValue("bookRecordId",'')
+                                                        setFieldValue("bookName",'')
+                                                        setFieldValue("relatedField",'')
                                                       }else{
                                                         console.log('value',value);
-                                                       
+                                                        setFieldValue("bookRecordId",value.id)
+                                                        setFieldValue("bookName",value.BookName)
                                                         setFieldValue("relatedField",value)
                                                       }
                                                 }}
