@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -34,9 +33,7 @@ const ModalStyle = {
 };
 
 const StudentRelatedItems = ({ props }) => {
-
   const urlgetBooksbyStudentId = `http://localhost:4500/getBooksbyStudentId?searchId=`;
-
 
   const location = useLocation();
 
@@ -46,11 +43,10 @@ const StudentRelatedItems = ({ props }) => {
 
   useEffect(() => {
     console.log("passed student record", location.state.record.item);
-    if(location.state.record.item){
+    if (location.state.record.item) {
       setStudentRecordId(location.state.record.item._id);
       getBooksbyStudentId(location.state.record.item._id);
     }
- 
   }, []);
 
   const getBooksbyStudentId = (stdId) => {
@@ -71,13 +67,9 @@ const StudentRelatedItems = ({ props }) => {
       });
   };
 
-  const handleBookModalOpen = () => {
-    setBookModalOpen(true);
-  };
-  const handleBookModalClose = () => {
-    setBookModalOpen(false);
-    setRelatedBooks(studentRecordId);
-  };
+const handleReturnBook=()=>{
+  console.log('handleReturnBook');
+}
 
   return (
     <>
@@ -91,58 +83,50 @@ const StudentRelatedItems = ({ props }) => {
           id="panel1a-header"
         >
           <Typography variant="h6">
-             Books list ({relatedBooks.length})
+            Books list ({relatedBooks.length})
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            <div style={{ textAlign: "end", marginBottom: "5px" }}>
-              <Button
-                variant="contained"
-                color="info"
-                onClick={() => handleBookModalOpen()}
-              >
-                Add Book
-              </Button>
-            </div>
+            <div style={{ textAlign: "end", marginBottom: "5px" }}></div>
             <Card dense compoent="span">
-              {relatedBooks.length > 0
-                ? relatedBooks.map((item) => {
-                    return (
-                      <div>
-                        <CardContent sx={{ bgcolor: "white", m: "15px" }}>
-                          <div key={item._id}>
-                            <Grid container spacing={2}>
-                              <Grid item xs={12} md={12}>
-                                <div>Student Name :{item.FirstName + item.LastName}</div>
-                                <div>Department :{item.Department}</div>
-                                <div>Year : {item.Year} </div>
-                              </Grid>
-                            </Grid>
-                          </div>
-                        </CardContent>
-                      </div>
-                    );
-                  })
-                : ""}
+              {relatedBooks.length &&
+                Object.keys(relatedBooks).map((key) => {
+                  return (
+                    <div>
+                      <CardContent sx={{ bgcolor: "white", m: "15px" }}>
+                        <div key={key}>
+                          {relatedBooks[key].map((dataItem) => {
+                            console.log(dataItem,'dataItem');
+                            return (
+                              <>
+                                <Grid container spacing={2}>
+                                  <Grid item xs={8} md={8}>
+                                    <div>BookName :{dataItem.BookName}</div>
+                                    <div>category :{dataItem.category}</div>
+                                    <div>Author : {dataItem.Author} </div>
+                                  </Grid>
+                                  <Grid item xs={4} md={4}>
+                                    <Button
+                                      variant="contained"
+                                      onClick={() => handleReturnBook()}
+                                    >
+                                      Return
+                                    </Button>
+                                  </Grid>
+                                </Grid>
+                              </>
+                            );
+                          })}
+                        </div>
+                      </CardContent>
+                    </div>
+                  );
+                })}
             </Card>
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <Modal
-        open={bookModalOpen}
-        onClose={handleBookModalClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{ backdropFilter: "blur(2px)" }}
-      >
-        <Box sx={ModalStyle}>
-          <ModalBookLoockup
-            data={location.state.record.item}
-            handleModal={handleBookModalClose}
-          />
-        </Box>
-      </Modal>
     </>
   );
 };
