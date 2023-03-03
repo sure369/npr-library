@@ -54,8 +54,9 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
         axios.post(loockupSubmit, values)
         .then((res) => {
             console.log('upsert record  response', res);
-           
+            alert('Book issued suffesfully')
             setTimeout(() => {
+               
                 handleModal();
             }, 1000)
         })
@@ -63,6 +64,7 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
             console.log('upsert record  error', error);
            
               setTimeout(() => {
+                
                 handleModal();
             }, 1000)
         })

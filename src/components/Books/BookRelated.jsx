@@ -35,6 +35,7 @@ const ModalStyle = {
 const BookRelatedItems = ({ item ,stockqty}) => {
 
   const urlgetStudentsbyBookId = `${process.env.REACT_APP_API_KEY}/getStudentsbyBookId?searchId=`;
+  const urlDeleteStudentBook =`${process.env.REACT_APP_API_KEY}/deletestudentbook?code=`;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -83,6 +84,19 @@ const BookRelatedItems = ({ item ,stockqty}) => {
     setStudentModalOpen(false);
     getStudentsbyBookId(bookRecordId);
   };
+  const handleReturnBook=(e,item)=>{
+    console.log(item,'handle return book')
+    axios.post(urlDeleteStudentBook+item._id)
+    .then((res)=>{
+     if(res.data.affectedRows===1){
+      alert('Book Return Succesfully')
+     }
+      getStudentsbyBookId(bookRecordId)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+  }
 
   return (
     <>
@@ -118,13 +132,16 @@ const BookRelatedItems = ({ item ,stockqty}) => {
                         <CardContent sx={{ bgcolor: "white", m: "15px" }}>
                           <div key={item._id}>
                             <Grid container spacing={2}>
-                              <Grid item xs={12} md={12}>
+                              <Grid item xs={8} md={8}>
                                 <div>
                                   Student Name :{item.studentName}
                                 </div>
                                 <div>Department :{item.Department}</div>
                                 <div>Year : {item.Year} </div>
                               </Grid>
+                              <Grid item xs={4} md={4}>
+                              <Button onClick={(e)=>handleReturnBook(e,item)}>Return</Button>
+                            </Grid>
                             </Grid>
                           </div>
                         </CardContent>
