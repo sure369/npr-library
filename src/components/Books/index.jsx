@@ -52,7 +52,7 @@ const[IssueBookRecord,setIssueBookRecord]=useState()
     .then((res)=>{
       console.log(res)
       setRecords(res.data)
-        // setBookNoOfPages(Math.ceil(res.data.length / bookItemsPerPage))
+       setBookNoOfPages(Math.ceil(res.data.length / bookItemsPerPage))
 
 
     })
