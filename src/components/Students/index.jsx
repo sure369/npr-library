@@ -31,7 +31,7 @@ function Students() {
 
   const columns = [
     {
-      field: "StudnetRollNo", headerName: "Studnet RollNo",
+      field: "StudentRollNo", headerName: "Student RollNo ",
       headerAlign: 'center', align: 'center', flex: 1,
     },
     {

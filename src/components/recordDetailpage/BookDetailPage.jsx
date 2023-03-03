@@ -49,6 +49,9 @@ const BookDetailPage = ({ item, stockqty }) => {
       .string()
       .required('Required')
       .max(30, 'Author must be less than 30 characters'),
+      Quantity:Yup
+      .number()
+      .required('Required')
   })
 
   const formSubmission = (values) => {
@@ -58,14 +61,12 @@ const BookDetailPage = ({ item, stockqty }) => {
     axios.post(upsertURL, values)
       .then((res) => {
         console.log('upsert record  response', res);
-
         setTimeout(() => {
           navigate(-1);
         }, 2000)
       })
       .catch((error) => {
         console.log('upsert record  error', error);
-
       })
   }
   console.log(stockqty, "detail page")
@@ -123,8 +124,11 @@ const BookDetailPage = ({ item, stockqty }) => {
                           <Field name="Author" type="text" class="form-input" />
                         </Grid>
                         <Grid item xs={6} md={6}>
-                          <FormLabel htmlFor="Quantity">Total Books  </FormLabel>
-                          <Field name="Quantity" type="number" class="form-input" />
+                          <FormLabel htmlFor="Quantity">Total Books   <span className="text-danger">*</span></FormLabel>
+                          <Field name="Quantity" type="number" class="form-input"  />
+                          <div style={{ color: 'red' }}>
+                            <ErrorMessage name="Quantity" />
+                          </div>
                         </Grid>
 
                         {

@@ -107,6 +107,7 @@ console.log(row)
     .then((res)=>{
       console.log(res)
       fetchRecords()
+      handleMoreMenuClose();
     })
     .catch((err)=>{
       console.log(err)
