@@ -8,8 +8,8 @@ import axios from 'axios'
 
 
 
-const loockupSubmit=`http://localhost:4500/updateStudentBook`
-const fetchStudentsbyName ='http://localhost:4500/lookupStudent'
+const loockupSubmit=`${process.env.REACT_APP_API_KEY}/updateStudentBook`
+const fetchStudentsbyName =`${process.env.REACT_APP_API_KEY}/lookupStudent`
 
 const ModalStudentLoockup = ({ data,handleModal }) => {
 
@@ -47,6 +47,8 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
         // values.StudnetName=values.relatedField.StudnetRollNo;
         values.bookName =parentRecord.BookName
         values.bookRecordId=parentRecord._id;
+        values.bookCategory=parentRecord.category
+        values.bookAuthor=parentRecord.Author
         console.log('after  submission value',values);
 
         axios.post(loockupSubmit, values)
@@ -123,9 +125,11 @@ const ModalStudentLoockup = ({ data,handleModal }) => {
                                                         setFieldValue("studentName",'')
                                                         setFieldValue("relatedField",'')
                                                       }else{
-                                                        console.log('value',value);
+                                                        console.log('inside Onchange',value);
                                                         setFieldValue("studentRecordId",value.id)
                                                         setFieldValue("studentName",value.studentName)
+                                                        setFieldValue('Department',value.Department)
+                                                        setFieldValue('Year',value.Year)
                                                         setFieldValue("relatedField",value)
                                                       }
                                                 }}

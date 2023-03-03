@@ -34,7 +34,7 @@ const ModalStyle = {
 
 const BookRelatedItems = ({ item ,stockqty}) => {
 
-  const urlgetStudentsbyBookId = `http://localhost:4500/getStudentsbyBookId?searchId=`;
+  const urlgetStudentsbyBookId = `${process.env.REACT_APP_API_KEY}/getStudentsbyBookId?searchId=`;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -120,8 +120,7 @@ const BookRelatedItems = ({ item ,stockqty}) => {
                             <Grid container spacing={2}>
                               <Grid item xs={12} md={12}>
                                 <div>
-                                  Student Name :{" "}
-                                  {item.FirstName + item.LastName}{" "}
+                                  Student Name :{item.studentName}
                                 </div>
                                 <div>Department :{item.Department}</div>
                                 <div>Year : {item.Year} </div>

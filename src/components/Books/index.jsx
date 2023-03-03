@@ -10,9 +10,8 @@ import axios from 'axios'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ModalStudentLoockup from '../recordDetailpage/ModalStudentLoockup'
 
-const BookDataURL = `http://localhost:4500/getBookData`;
-const DeleteBookDataURL = `http://localhost:4500/deleteBookData?bookid=`;
-
+const BookDataURL = `${process.env.REACT_APP_API_KEY}/getBookData`;
+const DeleteBookDataURL = `${process.env.REACT_APP_API_KEY}/deleteBookData?bookid=`;
 
 
 const ModalStyle = {

@@ -19,7 +19,6 @@ import {
 import axios from "axios";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ModalBookLoockup from "../recordDetailpage/ModalBookLoockup";
 
 const ModalStyle = {
   position: "absolute",
@@ -33,13 +32,13 @@ const ModalStyle = {
 };
 
 const StudentRelatedItems = ({ props }) => {
-  const urlgetBooksbyStudentId = `http://localhost:4500/getBooksbyStudentId?searchId=`;
+  const urlgetBooksbyStudentId = `${process.env.REACT_APP_API_KEY}/getBooksbyStudentId?searchId=`;
+  const urlDeleteStudentBook =`${process.env.REACT_APP_API_KEY}/deletestudentbook?code=`;
 
   const location = useLocation();
 
   const [studentRecordId, setStudentRecordId] = useState();
   const [relatedBooks, setRelatedBooks] = useState([]);
-  const [bookModalOpen, setBookModalOpen] = useState(false);
 
   useEffect(() => {
     console.log("passed student record", location.state.record.item);
@@ -67,8 +66,15 @@ const StudentRelatedItems = ({ props }) => {
       });
   };
 
-const handleReturnBook=()=>{
-  console.log('handleReturnBook');
+const handleReturnBook=(e,item)=>{
+  axios.post(urlDeleteStudentBook+item._id)
+  .then((res)=>{
+    console.log(res,'handleReturnBook res')
+    getBooksbyStudentId(studentRecordId)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
 }
 
   return (
@@ -90,39 +96,29 @@ const handleReturnBook=()=>{
           <Typography>
             <div style={{ textAlign: "end", marginBottom: "5px" }}></div>
             <Card dense compoent="span">
-              {relatedBooks.length &&
-                Object.keys(relatedBooks).map((key) => {
+              {relatedBooks.length >0
+               ? relatedBooks.map((item) => {
                   return (
                     <div>
                       <CardContent sx={{ bgcolor: "white", m: "15px" }}>
-                        <div key={key}>
-                          {relatedBooks[key].map((dataItem) => {
-                            console.log(dataItem,'dataItem');
-                            return (
-                              <>
-                                <Grid container spacing={2}>
-                                  <Grid item xs={8} md={8}>
-                                    <div>BookName :{dataItem.BookName}</div>
-                                    <div>category :{dataItem.category}</div>
-                                    <div>Author : {dataItem.Author} </div>
-                                  </Grid>
-                                  <Grid item xs={4} md={4}>
-                                    <Button
-                                      variant="contained"
-                                      onClick={() => handleReturnBook()}
-                                    >
-                                      Return
-                                    </Button>
-                                  </Grid>
-                                </Grid>
-                              </>
-                            );
-                          })}
+                        <div key={item._id}>
+                          <Grid container spacing={2}>
+                            <Grid item xs={8} md={8}>
+                              <div>Book Name :{item.BookName}</div>
+                              <div>Author :{item.bookAuthor}</div>
+                              <div>Category : {item.bookCategory} </div>
+                            </Grid>
+                            <Grid item xs={4} md={4}>
+                              <Button onClick={(e)=>handleReturnBook(e,item)}>Return</Button>
+                            </Grid>
+                          </Grid>
                         </div>
                       </CardContent>
                     </div>
                   );
-                })}
+                })
+                :''
+              }
             </Card>
           </Typography>
         </AccordionDetails>
