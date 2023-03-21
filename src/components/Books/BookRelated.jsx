@@ -65,11 +65,13 @@ const BookRelatedItems = ({ item ,stockqty}) => {
       .post(urlgetStudentsbyBookId+bookId)
       .then((res) => {
         console.log("response getStudentsbyBookId fetch", res);
+        console.log(res.data.length,"qty")
         if (res.data.length > 0) {
           setRelatedStudents(res.data);
           stockqty(res.data.length)
         } else {
           setRelatedStudents([]);
+          stockqty(0)
         }
       })
       .catch((error) => {
@@ -88,10 +90,11 @@ const BookRelatedItems = ({ item ,stockqty}) => {
     console.log(item,'handle return book')
     axios.post(urlDeleteStudentBook+item._id)
     .then((res)=>{
+      getStudentsbyBookId(bookRecordId)
      if(res.data.affectedRows===1){
       alert('Book Return Succesfully')
      }
-      getStudentsbyBookId(bookRecordId)
+      
     })
     .catch((err)=>{
       console.log(err)
